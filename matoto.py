@@ -20,6 +20,7 @@ class Activity(object):
         notification_msg =\
             "You finished activity %s in %i seconds. Well done!" %\
                 (class_name, self._duration)
+        os.system('aplay -q bell-outside.wav')
         print(notification_msg)
         os.system('notify-send "%s"' % notification_msg)
 
@@ -57,10 +58,12 @@ def process_user_input():
     try:
         while True:
             user_input = ''
-            while len(user_input) != 1 and user_input not in ['b', 'p']:
+            while len(user_input) != 1 and user_input not in ['b', 'p', 'q']:
                 user_input = input(
                         "Please enter your activity: [p] for starting a "+
-                        "pomodoro OR [b] for starting a break > ")
+                        "pomodoro, [b] for starting a break OR [q]uit > ")
+            if user_input == 'q':
+                raise EOFError
             activity = create_activity(user_input)
             activity()
     except EOFError:
