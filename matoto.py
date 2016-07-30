@@ -4,18 +4,18 @@ A simple timer for various activities such as pomodoros, breaks, mindfulness
 exercises.
 """
 
-import timer
+import time
 import os
 import sys
 
 class Activity(object):
-    def __init__(greeting, duration=None):
+    def __init__(self, greeting, duration):
         self._greeting = greeting
         self._duration = duration
 
-    def __call__():
+    def __call__(self):
         print(self._greeting)
-        timer.sleep(self._duration)
+        time.sleep(self._duration)
         class_name = self.__class__.__name__
         notification_msg =\
             "You finished activity %s in %i seconds. Well done!" %\
@@ -29,23 +29,17 @@ class Pomodoro(Activity):
     Start a pomodoro with as many seconds as given from duration.
     The default is 1500 seconds, 25 minutes
     """
-    def __init__():
+    def __init__(self, duration=1500):
         super().__init__("Starting a pomodoro. Get prepared to work.",
-                duration=1500)
-
-    def __call__():
-        self(duration)
+                duration)
 
 
 class Break(Activity):
     """
     Start a break of 5 minutes as default or supply a different duration
     """
-    def __init__():
-        super().__init__("Now it is time for a break! Relax.", duration=300)
-
-    def __call__():
-        self(duration)
+    def __init__(self, duration=300):
+        super().__init__("Now it is time for a break! Relax.", duration)
 
 
 def create_activity(user_choice):
@@ -64,19 +58,18 @@ def process_user_input():
         while True:
             user_input = ''
             while len(user_input) != 1 and user_input not in ['b', 'p']:
-                user_input = input("""
-                    Please enter your activity: [p] for starting a pomodoro OR
-                    [b] for starting a break >
-                    """)
+                user_input = input(
+                        "Please enter your activity: [p] for starting a "+
+                        "pomodoro OR [b] for starting a break > ")
             activity = create_activity(user_input)
             activity()
     except EOFError:
-        print("Exiting matoto.")
+        print("\nExiting matoto.")
         sys.exit(0)
 
 
 def run_matoto():
-    pass
+    process_user_input()
 
 
 if __name__ == '__main__':
