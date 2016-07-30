@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+A simple timer for various activities such as pomodoros, breaks, mindfulness
+exercises.
+"""
+
 import timer
 import os
 import sys
