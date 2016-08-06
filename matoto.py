@@ -23,20 +23,28 @@ def time_function(func):
 
 
 class Activity(object):
-    def __init__(self, greeting, duration):
+    """
+    Generalizes behavior for all different activities, such as pomodoro, break.
+    It is a command object with a default implementation to execute the
+    activity.
+    """
+
+    def __init__(self, greeting, duration, mute=False):
         self._greeting = greeting
         self._duration = duration
+        self._mute = mute
 
     def __call__(self):
         print(self._greeting)
         time.sleep(self._duration)
-        class_name = self.__class__.__name__
+        activity_name = self.__class__.__name__.lower()
         notification_msg = \
             "You finished activity %s in %i seconds. Well done!" % \
-            (class_name, self._duration)
-        os.system('aplay -q bell-outside.wav')
+            (activity_name, self._duration)
         print(notification_msg)
         os.system('notify-send "%s"' % notification_msg)
+        if self._mute:
+            os.system('aplay -q bell-outside.wav')
 
 
 class Pomodoro(Activity):
@@ -60,6 +68,11 @@ class Break(Activity):
 
 
 def create_activity(user_choice):
+    """
+    Factory to create different types of activities.
+    :param user_choice: a str of length 1 to describe the type of the object.
+    :return: a freshly created activity.
+    """
     if user_choice == 'b':
         activity = Break()
     elif user_choice == 'p':
