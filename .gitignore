@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Ignore .idea files from PyCharm.
+.idea/
+
+# Ignore vim backups
+*.swp
