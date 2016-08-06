@@ -9,6 +9,19 @@ import sys
 import time
 
 
+def time_function(func):
+    """
+    Profiles a function call and returns the seconds that it took to complete
+    the call.
+    :param func: a function/method/closure to call without any parameters
+    :return: competition time in seconds.
+    """
+    start = time.time()
+    func()
+    end = time.time()
+    return end - start
+
+
 class Activity(object):
     def __init__(self, greeting, duration):
         self._greeting = greeting
