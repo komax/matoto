@@ -39,7 +39,7 @@ class Activity(object):
         time.sleep(self._duration)
         activity_name = self.__class__.__name__.lower()
         notification_msg = \
-            "You finished activity %s in %i seconds. Well done!" % \
+            "You finished a %s in %i seconds. Well done!" % \
             (activity_name, self._duration)
         print(notification_msg)
         os.system('notify-send "%s"' % notification_msg)
@@ -53,7 +53,7 @@ class Pomodoro(Activity):
     The default is 1500 seconds, 25 minutes
     """
 
-    def __init__(self, duration=1500):
+    def __init__(self, duration=1):
         super().__init__("Starting a pomodoro. Get prepared to work.",
                          duration)
 
@@ -63,7 +63,7 @@ class Break(Activity):
     Start a break of 5 minutes as default or supply a different duration
     """
 
-    def __init__(self, duration=300):
+    def __init__(self, duration=3):
         super().__init__("Now it is time for a break! Relax.", duration)
 
 
@@ -83,25 +83,29 @@ def create_activity(user_choice):
     return activity
 
 
-def process_user_input():
+def get_user_input():
     try:
-        while True:
-            user_input = ''
-            while len(user_input) != 1 and user_input not in ['b', 'p', 'q']:
-                user_input = input(
-                    "Please enter your activity: [p] for starting a " +
-                    "pomodoro, [b] for starting a break OR [q]uit > ")
-            if user_input == 'q':
-                raise EOFError
-            activity = create_activity(user_input)
-            activity()
+        user_input = ''
+        while len(user_input) != 1 and user_input not in ['b', 'p', 'q']:
+            user_input = input(
+                "Please enter your activity: [p] for starting a " +
+                "pomodoro, [b] for starting a break OR [q]uit > ")
+            user_input = user_input.lower()
+        # Return the correct choices.
+        return user_input
     except EOFError:
-        print("\nExiting matoto.")
-        sys.exit(0)
+        return 'q'
 
 
 def run_matoto():
-    process_user_input()
+    user_input = get_user_input()
+    while user_input != 'q':
+        activity = create_activity(user_input)
+        activity()
+        user_input = get_user_input()
+    # User wants to quit. Quit the program.
+    print("\nExiting matoto.")
+    sys.exit(0)
 
 
 if __name__ == '__main__':
