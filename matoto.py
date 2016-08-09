@@ -22,6 +22,18 @@ def time_function(func):
     return end - start
 
 
+def minutes_seconds_str(seconds):
+    minutes = int(seconds / 60)
+    left_over_secs = seconds % 60
+    if not left_over_secs:
+        secs_str = '00'
+    elif left_over_secs < 10:
+        secs_str = "0%d" % left_over_secs
+    else:
+        secs_str = str(left_over_secs)
+    return "%d:%s" % (minutes, secs_str)
+
+
 class Activity(object):
     """
     Generalizes behavior for all different activities, such as pomodoro, break.
@@ -39,8 +51,8 @@ class Activity(object):
         time.sleep(self._duration)
         activity_name = self.__class__.__name__.lower()
         notification_msg = \
-            "You finished a %s in %i seconds. Well done!" % \
-            (activity_name, self._duration)
+            "You finished a %s in %s s. Well done!" % \
+            (activity_name, minutes_seconds_str(self._duration))
         print(notification_msg)
         os.system('notify-send "%s"' % notification_msg)
         if self._mute:
