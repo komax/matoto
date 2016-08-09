@@ -53,7 +53,7 @@ class Pomodoro(Activity):
     The default is 1500 seconds, 25 minutes
     """
 
-    def __init__(self, duration=1):
+    def __init__(self, duration=1500):
         super().__init__("Starting a pomodoro. Get prepared to work.",
                          duration)
 
@@ -63,7 +63,7 @@ class Break(Activity):
     Start a break of 5 minutes as default or supply a different duration
     """
 
-    def __init__(self, duration=3):
+    def __init__(self, duration=300):
         super().__init__("Now it is time for a break! Relax.", duration)
 
 
@@ -110,3 +110,4 @@ def run_matoto():
 
 if __name__ == '__main__':
     run_matoto()
+
